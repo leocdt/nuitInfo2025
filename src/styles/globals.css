@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom utility for pixel font fallback */
+.font-pixel {
+    font-family: var(--font-vt323), monospace;
+}
+
+.text-shadow-retro {
+    text-shadow: 4px 4px 0px #000000;
+}
