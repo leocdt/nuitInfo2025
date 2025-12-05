@@ -55,7 +55,7 @@ export const gameContent: GameConfig = {
                         },
                         {
                             speaker: 'Narateur',
-                            text: "Il était tant que tu arrives, les GAFAM sont en train de prendre le contrôle sur le peu de souveraineté qu'il reste... L'université est au bord du gouffre.",
+                            text: "Il était tant que tu arrives, les GAFAM sont en train de prendre le contrôle sur le peu de souveraineté qu'il nous reste... L'université est au bord du gouffre.",
                             emotion: 'sad'
                         }
                     ],
@@ -295,9 +295,148 @@ export const gameContent: GameConfig = {
                             speaker: 'Chatrlatant',
                             text: "C'est sombre ici...",
                             emotion: 'basic'
+                        },
+                        {
+                            speaker: '???',
+                            text: "Qui ose déranger mes compilations ?",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "Ah, le nouveau DSI. Tu as l'air... compatible.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Vous',
+                            text: "J'ai besoin d'aide pour le réseau.",
+                            choices: [
+                                { text: "Le réseau est en panne", targetScene: "chapitre1/geek-challenge" },
+                                { text: "On a un problème de sécurité", targetScene: "chapitre1/geek-challenge" },
+                                { text: "Je cherche la salle cachée", targetScene: "chapitre1/geek-challenge" }
+                            ]
+                        }
+                    ]
+                },
+                'geek-challenge': {
+                    id: 'geek-challenge',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Le Geek',
+                            text: "Tout le monde veut mon aide. Mais es-tu digne de mes connaissances ?",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "Prouve ta valeur sur cette machine. Fais un score de 800 et on discutera.",
+                            emotion: 'basic'
                         }
                     ],
-                    nextScene: null
+                    nextScene: 'chapitre1/geek-arcade-intro'
+                },
+                'geek-arcade-intro': {
+                    id: 'geek-arcade-intro',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: false,
+                    showChatCompanion: false,
+                    // Interactive scene: Click on arcade to start
+                    dialogues: [
+                        {
+                            speaker: '',
+                            text: "",
+                        }
+                    ],
+                    nextScene: 'chapitre1/geek-arcade' // Click handler will trigger this
+                },
+                'geek-arcade': {
+                    id: 'geek-arcade',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: false,
+                    showChatCompanion: false,
+                    dialogues: [],
+                    // This scene will render the SpaceInvaders component
+                },
+                'geek-success': {
+                    id: 'geek-success',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Le Geek',
+                            text: "Pas mal. Tu as de bons réflexes. Digne d'un admin sys.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "Tu sais, l'ancien DSI a fait une erreur fatale. Il a installé des logiciels propriétaires partout.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "On nous promettait la facilité, la sécurité... Mais on a perdu notre souveraineté. On est devenus dépendants.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "La solution, c'est le Libre. Réutiliser le matériel, installer Linux, reprendre le contrôle du code.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Vous',
+                            text: "C'est pour ça que le réseau plante ?",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Le Geek',
+                            text: "Exactement. C'est une rébellion des machines contre l'obsolescence programmée !",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Il marque un point. Mon code source se sent déjà plus léger.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/chapter1-end'
+                },
+                'geek-failure': {
+                    id: 'geek-failure',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Le Geek',
+                            text: "C'est tout ? Même ma grand-mère fait mieux sur Tetris.",
+                            emotion: 'basic',
+                            choices: [
+                                { text: "Rejouer", targetScene: "chapitre1/geek-arcade" },
+                                { text: "Abandonner (Dev Only: Skip)", targetScene: "chapitre1/geek-success" }
+                            ]
+                        }
+                    ]
+                },
+                'chapter1-end': {
+                    id: 'chapter1-end',
+                    background: '/images/background/hall.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Vous',
+                            text: "Merci pour les infos. On va remettre de l'ordre à la DSI.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Direction le bureau principal ! C'est l'heure du formatage !",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: null // End of Chapter 1
                 }
             }
         }

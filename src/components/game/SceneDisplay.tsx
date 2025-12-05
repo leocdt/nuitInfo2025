@@ -7,6 +7,7 @@ import { irishGrover } from '@/lib/fonts';
 import { DialogueBox } from '@/components/DialogueBox';
 import { RetroButton } from '@/components/RetroButton';
 import { ChatCompanion } from '@/components/ChatCompanion';
+import SpaceInvadersGame from '@/components/minigames/SpaceInvadersGame';
 
 interface SceneDisplayProps {
     scene: Scene;
@@ -61,9 +62,18 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
         handleNext(); // Move to door-knock-fail
     };
 
+    const handleArcadeClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        handleChoice('chapitre1/geek-arcade');
+    };
+
+    const handleArcadeWin = () => {
+        handleChoice('chapitre1/geek-success');
+    };
+
     const handleInputSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!currentDialogue.input) return;
+        if (!currentDialogue || !currentDialogue.input) return;
 
         if (inputValue.trim().toLowerCase() === currentDialogue.input.correctValue.toLowerCase()) {
             handleChoice(currentDialogue.input.successScene);
@@ -109,7 +119,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
             } else {
                 handleChoice('chapitre1/dead-end');
             }
-        } else if (!currentDialogue.choices && !currentDialogue.input) {
+        } else if (currentDialogue && !currentDialogue.choices && !currentDialogue.input) {
             handleNext();
         }
     };
@@ -119,16 +129,17 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
 
     // Helper to replace variables in text
     const processText = (text: string) => {
+        if (!text) return '';
         return text.replace(/<name>/g, effectiveName).replace(/{name}/g, effectiveName);
     };
 
-    const processedText = processText(currentDialogue.text);
-    const isQuestion = !!currentDialogue.choices && currentDialogue.choices.length > 0;
+    const processedText = currentDialogue ? processText(currentDialogue.text) : '';
+    const isQuestion = currentDialogue ? (!!currentDialogue.choices && currentDialogue.choices.length > 0) : false;
 
     const handleNext = () => {
         if (!isLastDialogue) {
             setDialogueIndex(prev => prev + 1);
-        } else if (currentDialogue.choices) {
+        } else if (currentDialogue && currentDialogue.choices) {
             // Do nothing, wait for choice
         } else if (scene.nextScene) {
             const target = scene.nextScene.includes('/')
@@ -150,7 +161,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
     // Handle Spacebar
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.code === 'Space' && !currentDialogue.choices) {
+            if (e.code === 'Space' && currentDialogue && !currentDialogue.choices) {
                 e.preventDefault(); // Prevent scrolling
                 handleNext();
             }
@@ -206,12 +217,29 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                 </div>
             )}
 
+            {/* Arcade Machine Hitbox for geek-arcade-intro */}
+            {scene.id === 'geek-arcade-intro' && (
+                <div
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] h-[400px] z-30 cursor-pointer border-4 border-transparent hover:border-green-500 transition-all"
+                    onClick={handleArcadeClick}
+                >
+                    <div className="absolute -top-10 left-0 w-full text-center text-green-500 font-pixel animate-bounce">
+                        CLIQUER POUR JOUER
+                    </div>
+                </div>
+            )}
+
+            {/* Minigame Overlay */}
+            {scene.id === 'geek-arcade' && (
+                <SpaceInvadersGame onWin={handleArcadeWin} />
+            )}
+
             {/* Chat Companion (Optional) */}
             {scene.showChatCompanion && (
                 <div onClick={handleRobotClick} className="cursor-pointer pointer-events-auto relative z-40">
                     <ChatCompanion
-                        text={tempRobotText || (isQuestion ? processedText : (scene.id === 'door-puzzle' ? '' : (currentDialogue.speaker === 'Chatrlatant' ? processedText : '')))}
-                        mood={currentDialogue.emotion as any || 'basic'}
+                        text={tempRobotText || (isQuestion ? processedText : (scene.id === 'door-puzzle' ? '' : (currentDialogue && currentDialogue.speaker === 'Chatrlatant' ? processedText : '')))}
+                        mood={currentDialogue ? (currentDialogue.emotion as any || 'basic') : 'basic'}
                     />
                 </div>
             )}
@@ -221,7 +249,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                 <div className="absolute bottom-0 left-0 w-full z-40">
 
                     {/* Input Field for Puzzles */}
-                    {currentDialogue.input && (
+                    {currentDialogue && currentDialogue.input && (
                         <div className="absolute bottom-32 left-0 w-full flex justify-center z-50 pointer-events-auto px-4">
                             <form onSubmit={handleInputSubmit} className="flex flex-col items-center gap-4 w-full max-w-md">
                                 <input
@@ -249,7 +277,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                         </div>
                     )}
 
-                    {currentDialogue.choices && scene.id !== 'corridor-choice' && (
+                    {currentDialogue && currentDialogue.choices && scene.id !== 'corridor-choice' && (
                         <div className="absolute bottom-10 left-0 w-full flex flex-row justify-center gap-4 z-50 pointer-events-auto flex-wrap px-4">
                             {currentDialogue.choices.map((choice, idx) => (
                                 <RetroButton
@@ -265,7 +293,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                         </div>
                     )}
 
-                    {!isQuestion && !currentDialogue.input && currentDialogue.speaker !== 'Chatrlatant' && (
+                    {currentDialogue && !isQuestion && !currentDialogue.input && currentDialogue.speaker !== 'Chatrlatant' && (
                         <DialogueBox
                             text={processedText}
                             characterName={currentDialogue.speaker}
