@@ -304,11 +304,13 @@ export const gameContent: GameConfig = {
                         },
                         {
                             speaker: '???',
+                            audioSrc: '/audio/personnages/geek/1.mp3',
                             text: "Qui ose déranger mes compilations ?",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/2.mp3',
                             text: "Ah, le nouveau DSI. Tu as l'air... compatible.",
                             emotion: 'basic'
                         },
@@ -331,11 +333,13 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/3.mp3',
                             text: "Tout le monde veut mon aide. Mais es-tu digne de mes connaissances ?",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/4.mp3',
                             text: "Prouve ta valeur sur cette machine. Fais un score de 800 et on discutera.",
                             emotion: 'basic'
                         }
@@ -372,21 +376,25 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/5.mp3',
                             text: "Pas mal. Tu as de bons réflexes. Digne d'un admin sys.",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/6.mp3',
                             text: "Tu sais, l'ancien DSI a fait une erreur fatale. Il a installé des logiciels propriétaires partout.",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/7.mp3',
                             text: "On nous promettait la facilité, la sécurité... Mais on a perdu notre souveraineté. On est devenus dépendants.",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/8.mp3',
                             text: "La solution, c'est le Libre. Réutiliser le matériel, installer Linux, reprendre le contrôle du code.",
                             emotion: 'basic'
                         },
@@ -397,6 +405,7 @@ export const gameContent: GameConfig = {
                         },
                         {
                             speaker: 'Le Geek',
+                            audioSrc: '/audio/personnages/geek/9.mp3',
                             text: "Exactement. C'est une rébellion des machines contre l'obsolescence programmée !",
                             emotion: 'basic'
                         },

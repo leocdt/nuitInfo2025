@@ -74,12 +74,13 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
     useEffect(() => {
         if (typeof window === 'undefined') return;
 
-        const playRandomSound = () => {
+        const playRandomSound = async () => {
             if (isFinishedRef.current) return;
 
             const randomSound = CAT_SOUNDS[Math.floor(Math.random() * CAT_SOUNDS.length)];
             const audio = new Audio(randomSound);
             audio.volume = volume * 0.6;
+            audio.preload = 'auto';
             audioRef.current = audio;
 
             audio.addEventListener('ended', () => {
@@ -88,9 +89,13 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
                 }
             });
 
-            audio.play().catch(error => {
+            try {
+                // Non-blocking play
+                await new Promise(resolve => setTimeout(resolve, 0));
+                await audio.play();
+            } catch (error) {
                 console.warn("Chat audio autoplay blocked:", error);
-            });
+            }
         };
 
         if (text.length > 0) {

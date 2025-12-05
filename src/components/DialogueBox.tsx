@@ -47,13 +47,17 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         const audio = new Audio(audioSrc);
         audio.volume = volume;
         audio.loop = audioLoop;
+        audio.preload = 'auto'; // Force preload
         audioRef.current = audio;
 
         if (syncTextToAudio) {
             const setSpeed = () => {
                 if (audio.duration && Number.isFinite(audio.duration) && text.length > 0) {
                     const calculatedSpeed = (audio.duration * 1000) / text.length;
-                    setCurrentSpeed(calculatedSpeed);
+                    // Clamp speed to avoid extremely slow text if audio is long (max 150ms/char)
+                    // and avoid extremely fast text (min 20ms/char)
+                    const clampedSpeed = Math.min(Math.max(calculatedSpeed, 20), 150);
+                    setCurrentSpeed(clampedSpeed);
                 }
             };
 
@@ -69,9 +73,11 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         // Tentative de lecture immédiate
         const playAudio = async () => {
             try {
+                // Small timeout to avoid blocking if browser is busy
+                await new Promise(resolve => setTimeout(resolve, 0));
                 await audio.play();
             } catch (error) {
-                console.warn("Autoplay bloqué:", error);
+                console.warn("Autoplay bloqué ou échoué:", error);
             }
         };
         playAudio();
