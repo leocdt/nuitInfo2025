@@ -208,67 +208,30 @@ export const gameContent: GameConfig = {
                 'door-closed': {
                     id: 'door-closed',
                     background: '/images/background/closed_door.png',
+                    showDialogueBox: false,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: '',
+                            text: "", // Silent initially
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/door-knock-fail' // Click on door triggers this
+                },
+                'door-knock-fail': {
+                    id: 'door-knock-fail',
+                    background: '/images/background/closed_door.png',
                     showDialogueBox: true,
                     showChatCompanion: true,
                     dialogues: [
                         {
                             speaker: 'Chatrlatant',
-                            text: "Regarde cette porte... Le numéro est bizarre.",
-                            emotion: 'basic'
-                        },
-                        {
-                            speaker: 'Vous',
-                            text: "Que faire ?",
-                            choices: [
-                                { text: "Toquer", targetScene: "chapitre1/door-knock-1" },
-                                { text: "Essayer d'entrer", targetScene: "chapitre1/door-locked" }
-                            ]
-                        }
-                    ]
-                },
-                'door-locked': {
-                    id: 'door-locked',
-                    background: '/images/background/closed_door.png',
-                    showDialogueBox: true,
-                    showChatCompanion: true,
-                    dialogues: [
-                        {
-                            speaker: 'Système',
-                            text: "La porte semble fermée à clé.",
-                            emotion: 'basic'
+                            text: "Tu n'as pas assez insisté.",
+                            emotion: 'tired'
                         }
                     ],
-                    nextScene: 'chapitre1/door-interaction-2'
-                },
-                'door-knock-1': {
-                    id: 'door-knock-1',
-                    background: '/images/background/closed_door.png',
-                    showDialogueBox: true,
-                    showChatCompanion: false,
-                    dialogues: [
-                        {
-                            speaker: '...',
-                            text: "...",
-                            emotion: 'basic'
-                        }
-                    ],
-                    nextScene: 'chapitre1/door-interaction-2'
-                },
-                'door-interaction-2': {
-                    id: 'door-interaction-2',
-                    background: '/images/background/closed_door.png',
-                    showDialogueBox: true,
-                    showChatCompanion: false,
-                    dialogues: [
-                        {
-                            speaker: 'Vous',
-                            text: "Je réessaie ?",
-                            choices: [
-                                { text: "Toquer", targetScene: "chapitre1/door-knock-1" },
-                                { text: "Toquer FORT", targetScene: "chapitre1/door-puzzle" }
-                            ]
-                        }
-                    ]
+                    nextScene: 'chapitre1/door-puzzle'
                 },
                 'door-puzzle': {
                     id: 'door-puzzle',
@@ -283,7 +246,7 @@ export const gameContent: GameConfig = {
                         },
                         {
                             speaker: 'Chatrlatant',
-                            text: "Vite ! Traduis le binaire sur la porte !",
+                            text: "...", // Robot is silent during input unless clicked
                             emotion: 'basic',
                             input: {
                                 correctValue: "Linux",
