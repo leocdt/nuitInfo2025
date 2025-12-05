@@ -14,3 +14,21 @@ body {
   color: var(--foreground);
   font-family: sans-serif;
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes talk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-talk {
+  animation: talk 0.3s ease-in-out infinite;
+}
