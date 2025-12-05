@@ -50,11 +50,13 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Narateur',
-                            text: "bienvenue à ton nouveau job. Prêt à sauver le monde ?",
+                            audioSrc: '/audio/personnages/seq1/narrateur1.mp3',
+                            text: "Bienvenue à ton nouveau job. Prêt à sauver l'université ?",
                             emotion: 'basic'
                         },
                         {
                             speaker: 'Narateur',
+                            audioSrc: '/audio/personnages/seq1/narrateur2.mp3',
                             text: "Il était tant que tu arrives, les GAFAM sont en train de prendre le contrôle sur le peu de souveraineté qu'il nous reste... L'université est au bord du gouffre.",
                             emotion: 'sad'
                         }
@@ -135,7 +137,8 @@ export const gameContent: GameConfig = {
                         },
                         {
                             speaker: 'Vous',
-                            text: "Dis-m'en plus."
+                            audioSrc: '/audio/personnages/seq1/dsi1.mp3',
+                            text: "Dis-m'en plus. S'il te plaît."
                         },
                         {
                             speaker: 'Chatrlatant',
@@ -184,6 +187,7 @@ export const gameContent: GameConfig = {
                         {
                             speaker: 'Vous',
                             text: "Deux chemins...",
+                            audioSrc: '/audio/personnages/seq1/dsi1.mp3',
                             choices: [
                                 { text: "Aller à gauche", targetScene: "chapitre1/door-closed" },
                                 { text: "Aller à droite", targetScene: "chapitre1/dead-end" }
@@ -241,6 +245,7 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Voix Intérieure',
+                            audioSrc: '/audio/personnages/seq1/inconnu1.mp3',
                             text: "MOT DE PASSE !",
                             emotion: 'basic'
                         },
@@ -265,6 +270,7 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Voix Intérieure',
+                            audioSrc: '/audio/personnages/seq1/inconnu2.mp3',
                             text: "VA T'EN !",
                             emotion: 'error'
                         }
@@ -279,7 +285,7 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Chatrlatant',
-                            text: "Ça s'ouvre ! Bien joué DSI.",
+                            text: "Ça s'ouvre ! Bien joué jeune DSI.",
                             emotion: 'basic'
                         }
                     ],

@@ -6,6 +6,7 @@ export interface Choice {
 export interface Dialogue {
     speaker: string;
     text: string;
+    audioSrc?: string; // Optional audio file for the dialogue
     emotion?: string; // For future sprite variations
     choices?: Choice[];
     input?: {

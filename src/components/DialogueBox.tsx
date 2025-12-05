@@ -11,6 +11,7 @@ interface DialogueBoxProps {
     speed?: number; // ms par caractère
     audioLoop?: boolean;
     stopAudioOnTextComplete?: boolean;
+    syncTextToAudio?: boolean;
     onComplete?: () => void;
 }
 
@@ -22,11 +23,13 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
     speed = 40,
     audioLoop = false,
     stopAudioOnTextComplete = false,
+    syncTextToAudio = false,
     onComplete,
 }) => {
     const { volume } = useVolume();
     const [displayedText, setDisplayedText] = useState('');
     const [isFinished, setIsFinished] = useState(false);
+    const [currentSpeed, setCurrentSpeed] = useState(speed);
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const indexRef = useRef(0);
@@ -46,6 +49,23 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         audio.loop = audioLoop;
         audioRef.current = audio;
 
+        if (syncTextToAudio) {
+            const setSpeed = () => {
+                if (audio.duration && Number.isFinite(audio.duration) && text.length > 0) {
+                    const calculatedSpeed = (audio.duration * 1000) / text.length;
+                    setCurrentSpeed(calculatedSpeed);
+                }
+            };
+
+            if (audio.readyState >= 1) {
+                setSpeed();
+            } else {
+                audio.onloadedmetadata = setSpeed;
+            }
+        } else {
+            setCurrentSpeed(speed);
+        }
+
         // Tentative de lecture immédiate
         const playAudio = async () => {
             try {
@@ -63,7 +83,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
                 audioRef.current = null;
             }
         };
-    }, [audioSrc, audioLoop]);
+    }, [audioSrc, audioLoop, syncTextToAudio, text.length, speed, volume]);
 
     // Update volume if it changes
     useEffect(() => {
@@ -124,12 +144,12 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
                     audioRef.current.currentTime = 0;
                 }
             }
-        }, speed);
+        }, currentSpeed);
 
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [text, speed, stopAudioOnTextComplete, isFinished]);
+    }, [text, currentSpeed, stopAudioOnTextComplete, isFinished]);
 
     const handleNextClick = () => {
         if (isFinished && onComplete) {

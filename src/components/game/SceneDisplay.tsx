@@ -298,7 +298,8 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                             text={processedText}
                             characterName={currentDialogue.speaker}
                             avatarSrc={currentDialogue.speaker === 'Chatrlatant' ? '/images/personnages/chat/cat_basic.png' : '/images/background/profilepic.png'}
-                            audioSrc="/audio/text_scroll.mp3"
+                            audioSrc={currentDialogue.audioSrc || "/audio/text_scroll.mp3"}
+                            syncTextToAudio={!!currentDialogue.audioSrc}
                             onComplete={undefined} // Let parent handle clicks
                             speed={40}
                         />
