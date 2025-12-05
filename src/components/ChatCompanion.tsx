@@ -34,11 +34,11 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
     const [displayedText, setDisplayedText] = useState('');
     const [isFinished, setIsFinished] = useState(false);
     const [isFlipped, setIsFlipped] = useState(false);
-    
+
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const indexRef = useRef(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-    
+
     // Refs for measuring text overflow
     const hiddenTextRef = useRef<HTMLParagraphElement>(null);
     const currentDisplayedTextRef = useRef('');
@@ -90,7 +90,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
                 console.warn("Chat audio autoplay blocked:", error);
             });
         };
-        
+
         if (text.length > 0) {
             // Stop previous audio if any
             if (audioRef.current) {
@@ -115,7 +115,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
         currentDisplayedTextRef.current = '';
         indexRef.current = 0;
         setIsFinished(false);
-        
+
         if (intervalRef.current) clearInterval(intervalRef.current);
     }, [text]);
 
@@ -125,10 +125,10 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
         intervalRef.current = setInterval(() => {
             if (indexRef.current < text.length) {
                 const char = text.charAt(indexRef.current);
-                
+
                 // Check for word overflow at the start of a word
                 const isStartOfWord = indexRef.current === 0 || (text.charAt(indexRef.current - 1) === ' ' && char !== ' ');
-                
+
                 if (isStartOfWord && hiddenTextRef.current) {
                     // Look ahead to find the full word
                     let endOfWord = indexRef.current;
@@ -136,7 +136,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
                         endOfWord++;
                     }
                     const word = text.substring(indexRef.current, endOfWord);
-                    
+
                     // Check if adding this word would overflow
                     hiddenTextRef.current.innerText = currentDisplayedTextRef.current + word;
                     if (hiddenTextRef.current.scrollHeight > hiddenTextRef.current.clientHeight) {
@@ -164,38 +164,40 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
 
     return (
         <div className="fixed top-4 right-4 md:right-10 z-50 flex flex-col items-end max-w-[480px] md:max-w-[700px]">
-            
+
             {/* Bubble */}
-            <div className="bg-white border-4 border-black p-4 mb-4 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-pixel text-black w-full z-20">
-                {/* Hidden measurement div */}
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none invisible p-4" aria-hidden="true">
-                        <p 
-                        ref={hiddenTextRef}
-                        className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
-                        style={{ maxHeight: '4.5em', overflow: 'hidden' }} // ~3 lines max for smaller bubble
-                    >
-                    </p>
-                </div>
+            {text && (
+                <div className="bg-white border-4 border-black p-4 mb-4 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-pixel text-black w-full z-20">
+                    {/* Hidden measurement div */}
+                    <div className="absolute top-0 left-0 w-full h-full pointer-events-none invisible p-4" aria-hidden="true">
+                        <p
+                            ref={hiddenTextRef}
+                            className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
+                            style={{ maxHeight: '4.5em', overflow: 'hidden' }} // ~3 lines max for smaller bubble
+                        >
+                        </p>
+                    </div>
 
-                <div className="relative z-10 min-h-[3em]">
-                    <p 
-                        className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
-                        style={{ maxHeight: '4.5em', overflow: 'hidden' }}
-                    >
-                        {displayedText}
-                        {!isFinished && <span className="inline-block w-2 h-4 bg-black ml-1 animate-pulse align-middle" />}
-                    </p>
-                </div>
+                    <div className="relative z-10 min-h-[3em]">
+                        <p
+                            className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
+                            style={{ maxHeight: '4.5em', overflow: 'hidden' }}
+                        >
+                            {displayedText}
+                            {!isFinished && <span className="inline-block w-2 h-4 bg-black ml-1 animate-pulse align-middle" />}
+                        </p>
+                    </div>
 
-                {/* Triangle pointer for bubble */}
-                <div className="absolute -bottom-4 right-36 md:right-60 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[16px] border-t-black"></div>
-                <div className="absolute -bottom-[10px] right-36 md:right-60 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[12px] border-t-white"></div>
-            </div>
+                    {/* Triangle pointer for bubble */}
+                    <div className="absolute -bottom-4 right-36 md:right-60 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[16px] border-t-black"></div>
+                    <div className="absolute -bottom-[10px] right-36 md:right-60 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[12px] border-t-white"></div>
+                </div>
+            )}
 
             {/* Cat Image */}
             <div className={`w-64 h-64 md:w-96 md:h-96 relative mr-4 md:mr-12 -mt-16 md:-mt-24 z-10 ${!isFinished ? 'animate-talk' : ''}`}>
-                <img 
-                    src={MOOD_IMAGES[mood]} 
+                <img
+                    src={MOOD_IMAGES[mood]}
                     alt={`Chat ${mood}`}
                     className={`w-full h-full object-contain drop-shadow-[4px_4px_0px_rgba(0,0,0,0.5)] ${isFlipped ? 'scale-x-[-1]' : ''}`}
                     style={{ imageRendering: 'pixelated' }}

@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { MainMenu } from '@/components/game/MainMenu';
 import { NarrativeSequence } from '@/components/game/NarrativeSequence';
 import { CharacterCreation } from '@/components/game/CharacterCreation';
+import { useRouter } from 'next/navigation';
 
 type GameStep = 'MENU' | 'INTRO' | 'NAME' | 'GAME';
 
 export default function Home() {
+  const router = useRouter();
   const [step, setStep] = useState<GameStep>('MENU');
   const [playerName, setPlayerName] = useState('');
 
@@ -21,7 +23,8 @@ export default function Home() {
 
   const handleNameConfirmed = (name: string) => {
     setPlayerName(name);
-    setStep('GAME');
+    // Redirect to the first scene of the prologue
+    router.push('/prologue/meet-robot');
   };
 
   return (
@@ -42,7 +45,7 @@ export default function Home() {
         <div className="min-h-screen flex items-center justify-center text-white font-pixel">
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4">Bienvenue, DSI {playerName}</h1>
-            <p className="text-xl">La suite arrive bientôt...</p>
+            <p className="text-xl">Chargement...</p>
           </div>
         </div>
       )}

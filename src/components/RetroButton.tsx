@@ -11,7 +11,7 @@ export const RetroButton: React.FC<RetroButtonProps> = ({ children, className = 
         <button
             className={`
         px-8 py-4 
-        bg-red-600 hover:bg-red-500 
+        bg-gray-600 hover:bg-gray-500 
         text-white font-bold text-2xl tracking-widest uppercase
         border-4 border-white 
         shadow-[4px_4px_0px_0px_rgba(255,255,255,0.5)] 
