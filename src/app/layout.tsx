@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { VT323 } from "next/font/google";
+import { vt323, irishGrover } from "@/lib/fonts";
 import "./globals.css";
-
-const vt323 = VT323({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-vt323",
-});
+import { CursorManager } from "@/components/ui/CursorManager";
 
 export const metadata: Metadata = {
   title: "Retro RPG Dialogue",
@@ -20,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`${vt323.variable} antialiased bg-[#202020] text-white overflow-hidden`}>
+      <body
+        className={`${vt323.variable} ${irishGrover.variable} antialiased bg-[#202020] text-white overflow-hidden`}
+      >
+        <CursorManager />
         {children}
       </body>
     </html>

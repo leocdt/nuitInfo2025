@@ -1,12 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom utility for pixel font fallback */
-.font-pixel {
-    font-family: var(--font-vt323), monospace;
-}
-
 .text-shadow-retro {
     text-shadow: 4px 4px 0px #000000;
+}
+
+:root {
+    --cursor-url: url('/cursor.png');
+}
+
+html,
+body {
+    cursor: var(--cursor-url) 0 0, auto !important;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+    cursor: var(--cursor-url) 0 0, pointer !important;
 }
