@@ -31,7 +31,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const indexRef = useRef(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-    
+
     // Refs for measuring text overflow
     const hiddenTextRef = useRef<HTMLParagraphElement>(null);
     const currentDisplayedTextRef = useRef('');
@@ -79,7 +79,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         currentDisplayedTextRef.current = '';
         indexRef.current = 0;
         setIsFinished(false);
-        
+
         if (intervalRef.current) clearInterval(intervalRef.current);
     }, [text]);
 
@@ -90,10 +90,10 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         intervalRef.current = setInterval(() => {
             if (indexRef.current < text.length) {
                 const char = text.charAt(indexRef.current);
-                
+
                 // Check for word overflow at the start of a word
                 const isStartOfWord = indexRef.current === 0 || (text.charAt(indexRef.current - 1) === ' ' && char !== ' ');
-                
+
                 if (isStartOfWord && hiddenTextRef.current) {
                     // Look ahead to find the full word
                     let endOfWord = indexRef.current;
@@ -101,7 +101,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
                         endOfWord++;
                     }
                     const word = text.substring(indexRef.current, endOfWord);
-                    
+
                     // Check if adding this word would overflow
                     hiddenTextRef.current.innerText = currentDisplayedTextRef.current + word;
                     if (hiddenTextRef.current.scrollHeight > hiddenTextRef.current.clientHeight) {
@@ -162,7 +162,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
                     <div className="flex-1 overflow-hidden relative">
                         {/* Hidden measurement div */}
                         <div className="absolute top-0 left-0 w-full h-full pointer-events-none invisible pr-6" aria-hidden="true">
-                             <p 
+                            <p
                                 ref={hiddenTextRef}
                                 className="text-lg sm:text-xl md:text-3xl leading-relaxed whitespace-pre-wrap font-pixel"
                                 style={{ maxHeight: '3.3em', overflow: 'hidden' }}
@@ -171,7 +171,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
                         </div>
 
                         <div className="h-full overflow-hidden flex items-start pr-6">
-                            <p 
+                            <p
                                 className="text-lg sm:text-xl md:text-3xl text-white leading-relaxed whitespace-pre-wrap font-pixel drop-shadow-md"
                                 style={{ maxHeight: '3.3em', overflow: 'hidden' }}
                             >

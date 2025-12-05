@@ -49,13 +49,13 @@ export const gameContent: GameConfig = {
                     showDialogueBox: true,
                     dialogues: [
                         {
-                            speaker: 'Chatrlatant',
-                            text: "Salut <name> ! Je suis Chatrlatant, ton assistant personnel. Prêt à sauver le monde ?",
+                            speaker: 'Narateur',
+                            text: "bienvenue à ton nouveau job. Prêt à sauver le monde ?",
                             emotion: 'basic'
                         },
                         {
-                            speaker: 'Chatrlatant',
-                            text: "Les GAFAM ont pris le contrôle... L'université est au bord du gouffre.",
+                            speaker: 'Narateur',
+                            text: "Il était tant que tu arrives, les GAFAM sont en train de prendre le contrôle sur le peu de souveraineté qu'il reste... L'université est au bord du gouffre.",
                             emotion: 'sad'
                         }
                     ],
@@ -69,7 +69,7 @@ export const gameContent: GameConfig = {
                     dialogues: [
                         {
                             speaker: 'Chatrlatant',
-                            text: "Tu dois avoir des questions sur l'université ?",
+                            text: "Salut je suis Chatrlatant, je suis ton assistant personnel. Clic moi dessus quand tu es bloqué !",
                             emotion: 'basic',
                             choices: [
                                 { text: "Pourquoi 'Souveraine' ?", targetScene: "prologue/q-souveraine" },

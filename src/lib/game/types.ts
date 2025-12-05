@@ -20,7 +20,7 @@ export interface Scene {
     id: string;
     background: string; // URL to image
     dialogues: Dialogue[];
-    nextScene?: string; // Default next scene if no choices
+    nextScene?: string | null; // Default next scene if no choices
     showChatCompanion?: boolean;
     showDialogueBox?: boolean;
     dialogueBoxStyle?: 'default' | 'retro'; // For future variations

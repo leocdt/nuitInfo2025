@@ -174,16 +174,16 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
                     <div className="absolute top-0 left-0 w-full h-full pointer-events-none invisible p-4" aria-hidden="true">
                         <p
                             ref={hiddenTextRef}
-                            className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
-                            style={{ maxHeight: '4.5em', overflow: 'hidden' }} // ~3 lines max for smaller bubble
+                            className="text-lg md:text-2xl leading-relaxed whitespace-pre-wrap font-pixel"
+                            style={{ maxHeight: '6em', overflow: 'hidden' }} // ~3 lines max for smaller bubble
                         >
                         </p>
                     </div>
 
                     <div className="relative z-10 min-h-[3em]">
                         <p
-                            className="text-sm md:text-xl leading-relaxed whitespace-pre-wrap font-pixel"
-                            style={{ maxHeight: '4.5em', overflow: 'hidden' }}
+                            className="text-lg md:text-2xl leading-relaxed whitespace-pre-wrap font-pixel"
+                            style={{ maxHeight: '6em', overflow: 'hidden' }}
                         >
                             {displayedText}
                             {!isFinished && <span className="inline-block w-2 h-4 bg-black ml-1 animate-pulse align-middle" />}
@@ -197,7 +197,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
             )}
 
             {/* Cat Image */}
-            <div className={`w-64 h-64 md:w-96 md:h-96 relative mr-4 md:mr-12 -mt-16 md:-mt-24 z-10 ${!isFinished ? 'animate-talk' : ''}`}>
+            <div className={`w-80 h-80 md:w-[32rem] md:h-[32rem] relative mr-4 md:mr-12 -mt-16 md:-mt-24 z-10 ${!isFinished ? 'animate-talk' : ''}`}>
                 <img
                     src={MOOD_IMAGES[mood]}
                     alt={`Chat ${mood}`}
