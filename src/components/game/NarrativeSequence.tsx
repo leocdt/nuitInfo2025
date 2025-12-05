@@ -2,12 +2,14 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useVolume } from '@/lib/audio/VolumeContext';
 
 interface NarrativeSequenceProps {
     onComplete: () => void;
 }
 
 export const NarrativeSequence: React.FC<NarrativeSequenceProps> = ({ onComplete }) => {
+    const { volume } = useVolume();
     const [showSkip, setShowSkip] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -38,7 +40,7 @@ export const NarrativeSequence: React.FC<NarrativeSequenceProps> = ({ onComplete
     useEffect(() => {
         // Audio setup
         const audio = new Audio('/audio/intro/starwars.mp3');
-        audio.volume = 0.5;
+        audio.volume = volume * 0.5;
         audioRef.current = audio;
         
         const playAudio = async () => {
@@ -80,7 +82,14 @@ export const NarrativeSequence: React.FC<NarrativeSequenceProps> = ({ onComplete
                 audioRef.current = null;
             }
         };
-    }, [onComplete]);
+    }, [onComplete]); // Removed volume from dependency to avoid restarting audio
+
+    // Update volume if it changes
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume * 0.5;
+        }
+    }, [volume]);
 
     const handleSkip = () => {
         fadeOutAndComplete(500); // Fast fade out on skip

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useVolume } from '@/lib/audio/VolumeContext';
 
 interface DialogueBoxProps {
     text: string;
@@ -23,6 +24,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
     stopAudioOnTextComplete = false,
     onComplete,
 }) => {
+    const { volume } = useVolume();
     const [displayedText, setDisplayedText] = useState('');
     const [isFinished, setIsFinished] = useState(false);
 
@@ -40,7 +42,7 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
         if (typeof window === 'undefined') return;
 
         const audio = new Audio(audioSrc);
-        audio.volume = 1.0;
+        audio.volume = volume;
         audio.loop = audioLoop;
         audioRef.current = audio;
 
@@ -62,6 +64,13 @@ export const DialogueBox: React.FC<DialogueBoxProps> = ({
             }
         };
     }, [audioSrc, audioLoop]);
+
+    // Update volume if it changes
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
+    }, [volume]);
 
     // 2. Logique Typewriter
     // Reset state when text changes

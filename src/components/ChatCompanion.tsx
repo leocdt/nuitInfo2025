@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useVolume } from '@/lib/audio/VolumeContext';
 
 export type CatMood = 'basic' | 'error' | 'sad' | 'tired';
 
@@ -31,6 +32,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
     onComplete,
     speed = 70,
 }) => {
+    const { volume } = useVolume();
     const [displayedText, setDisplayedText] = useState('');
     const [isFinished, setIsFinished] = useState(false);
     const [isFlipped, setIsFlipped] = useState(false);
@@ -77,7 +79,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
 
             const randomSound = CAT_SOUNDS[Math.floor(Math.random() * CAT_SOUNDS.length)];
             const audio = new Audio(randomSound);
-            audio.volume = 0.6;
+            audio.volume = volume * 0.6;
             audioRef.current = audio;
 
             audio.addEventListener('ended', () => {
@@ -107,7 +109,7 @@ export const ChatCompanion: React.FC<ChatCompanionProps> = ({
                 audioRef.current = null;
             }
         };
-    }, [text]); // Re-run when text changes (new dialogue line)
+    }, [text, volume]); // Re-run when text changes (new dialogue line)
 
     // 2. Typewriter Logic (Adapted from DialogueBox)
     useEffect(() => {
