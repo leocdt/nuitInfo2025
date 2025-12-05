@@ -51,7 +51,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
             if (robotClickCount < 2) {
                 setTempRobotText(facts[Math.floor(Math.random() * facts.length)]);
             } else {
-                setTempRobotText("Indice : La porte a un code hexa dessus... Traduis-le !");
+                setTempRobotText("Indice : La porte a un code base64 dessus... Traduis-le !");
             }
             setRobotClickCount(prev => prev + 1);
         }
