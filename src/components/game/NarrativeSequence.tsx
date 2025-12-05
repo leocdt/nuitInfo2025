@@ -133,7 +133,14 @@ export const NarrativeSequence: React.FC<NarrativeSequenceProps> = ({ onComplete
                         leurs technologies et données.
                     </p>
                     <p>
-                        une université résiste et n’est pas encore totalement corrompue...
+                        Une université résiste et n’est pas encore totalement corrompue...
+                    </p>
+                    <p>
+                        Grâce à un coup du sort cette université cherche un nouveau DSI suite au départ impromptu de l'ancien.
+                        Après avoir postulé vous avez décroché le job avec succès et aujourd'hui est votre premier jour.
+                    </p>
+                    <p>
+                        Mais vous ne savez pas encore dans quoi vous vous embarquez...
                     </p>
                 </div>
             </div>
