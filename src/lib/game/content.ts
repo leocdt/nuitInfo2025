@@ -327,17 +327,26 @@ export const gameContent: GameConfig = {
                             speaker: 'Le Geek',
                             text: "Tout le monde veut mon aide. Mais es-tu digne de mes connaissances ?",
                             emotion: 'basic'
-                        },
-                        {
-                            speaker: 'Le Geek',
-                            text: "Prouve ta valeur sur cette machine. Fais un score de 800 et on discutera.",
-                            emotion: 'basic'
                         }
                     ],
                     nextScene: 'chapitre1/geek-arcade-intro'
                 },
                 'geek-arcade-intro': {
                     id: 'geek-arcade-intro',
+                    background: '/images/background/geek_pointe.jpg',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Le Geek',
+                            text: "Prouve ta valeur sur cette machine. Fais un score de 800 et on discutera.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/geek-arcade-intro1'
+                },
+                'geek-arcade-intro1': {
+                    id: 'geek-arcade-intro1',
                     background: '/images/background/dark.png',
                     showDialogueBox: false,
                     showChatCompanion: false,
@@ -352,7 +361,7 @@ export const gameContent: GameConfig = {
                 },
                 'geek-arcade': {
                     id: 'geek-arcade',
-                    background: '/images/background/dark.png',
+                    background: '/images/background/spacei.jpg',
                     showDialogueBox: false,
                     showChatCompanion: false,
                     dialogues: [],
@@ -360,7 +369,7 @@ export const gameContent: GameConfig = {
                 },
                 'geek-success': {
                     id: 'geek-success',
-                    background: '/images/background/dark.png',
+                    background: '/images/background/bravogeek.jpg',
                     showDialogueBox: true,
                     showChatCompanion: true,
                     dialogues: [
@@ -369,6 +378,15 @@ export const gameContent: GameConfig = {
                             text: "Pas mal. Tu as de bons réflexes. Digne d'un admin sys.",
                             emotion: 'basic'
                         },
+                    ],
+                    nextScene: 'chapitre1/geek-success1'
+                },
+                'geek-success1': {
+                    id: 'geek-success1',
+                    background: '/images/background/tea_geek.jpg',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
                         {
                             speaker: 'Le Geek',
                             text: "Tu sais, l'ancien DSI a fait une erreur fatale. Il a installé des logiciels propriétaires partout.",
@@ -421,7 +439,7 @@ export const gameContent: GameConfig = {
                 },
                 'chapter1-end': {
                     id: 'chapter1-end',
-                    background: '/images/background/hall.png',
+                    background: '/images/background/dark.png',
                     showDialogueBox: true,
                     showChatCompanion: true,
                     dialogues: [
@@ -436,7 +454,93 @@ export const gameContent: GameConfig = {
                             emotion: 'basic'
                         }
                     ],
-                    nextScene: null // End of Chapter 1
+                    nextScene: 'chapitre2/DSI'
+                },
+            },
+        },
+        'chapitre2': {
+            id: 'chapitre2',
+            title: 'Le Bureau du DSI',
+            scenes: {
+                'DSI': {
+                    id: 'DSI',
+                    background: '/images/background/DSI.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Voici ton bureau. Ouvre ton ordinateur pour voir les dégâts.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre2/DSI-computer' // This will be handled by click, but good to have fallback/reference
+                },
+                'DSI-computer': {
+                    id: 'DSI-computer',
+                    background: '/images/background/mails_dsi.jpg',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Regarde ces mails... C'est pire que ce que je pensais.",
+                            emotion: 'sad'
+                        },
+                        {
+                            speaker: 'Vous',
+                            text: "On dirait que tout le système est verrouillé par des contrats propriétaires.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre2/DSI-desktop'
+                },
+                'DSI-desktop': {
+                    id: 'DSI-desktop',
+                    background: '/images/background/mails_dsi.jpg',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Connecté ! Clique sur l'icône 'Mail' pour envoyer le message de résiliation.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre2/DSI-email-writing' // Handled by click
+                },
+                'DSI-email-writing': {
+                    id: 'DSI-email-writing',
+                    background: '/images/background/ecrire_mail.jpg',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Allez, tape sur ton clavier pour écrire le mail ! N'importe quelle touche fera l'affaire.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: null // Handled by minigame completion
+                },
+                'DSI-email-sent': {
+                    id: 'DSI-email-sent',
+                    background: '/images/background/dsi_email_full.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Et voilà ! C'est envoyé. Microfast ne pourra plus nous ignorer maintenant.",
+                            emotion: 'happy'
+                        },
+                        {
+                            speaker: 'Vous',
+                            text: "J'espère que ça suffira pour reprendre le contrôle.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: null // End of demo or next chapter
                 }
             }
         }

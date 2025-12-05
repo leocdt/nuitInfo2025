@@ -5,7 +5,7 @@ import { CursorManager } from "@/components/ui/CursorManager";
 import { VolumeProvider } from "@/lib/audio/VolumeContext";
 
 export const metadata: Metadata = {
-  title: "Retro RPG Dialogue",
+  title: "Fun Game",
   description: "A retro-styled RPG dialogue component with synchronized audio",
 };
 

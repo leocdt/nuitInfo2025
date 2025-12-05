@@ -229,6 +229,43 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
                 </div>
             )}
 
+            {/* Computer Hitbox for DSI scene */}
+            {scene.id === 'DSI' && (
+                <div
+                    className="absolute top-1/2 left-[calc(50%+150px)] transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[150px] z-[60] cursor-pointer border-4 border-white/30 hover:border-blue-500 transition-all"
+                    onClick={() => handleChoice('chapitre2/DSI-computer')}
+                >
+                    <div className="absolute -top-10 left-0 w-full text-center text-blue-500 font-pixel animate-bounce">
+                        OUVRIR ORDINATEUR
+                    </div>
+                </div>
+            )}
+
+            {/* Click to enter desktop from computer view */}
+            {scene.id === 'DSI-computer' && (
+                <div
+                    className="absolute inset-0 z-30 cursor-pointer"
+                    onClick={() => handleChoice('chapitre2/DSI-desktop')}
+                />
+            )}
+
+            {/* Mail Icon Hitbox for DSI-desktop */}
+            {scene.id === 'DSI-desktop' && (
+                <div
+                    className="absolute top-[28%] left-[32%] w-[100px] h-[100px] z-30 cursor-pointer border-4 border-transparent hover:border-yellow-500 transition-all"
+                    onClick={() => handleChoice('chapitre2/DSI-email-writing')}
+                >
+                    <div className="absolute -bottom-8 left-0 w-full text-center text-yellow-500 font-pixel text-sm bg-black/50">
+                        MAIL
+                    </div>
+                </div>
+            )}
+
+            {/* Email Writing Interface */}
+            {scene.id === 'DSI-email-writing' && (
+                <EmailTyper onComplete={() => handleChoice('chapitre2/success')} />
+            )}
+
             {/* Minigame Overlay */}
             {scene.id === 'geek-arcade' && (
                 <SpaceInvadersGame onWin={handleArcadeWin} />
@@ -308,3 +345,90 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
         </div>
     );
 };
+
+const EmailTyper: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+    const fullText = "Bonjour,\n\nSuite à une réévaluation stratégique, nous vous informons de notre volonté de résilier l'intégralité de nos abonnements pour vos solutions logicielles et cloud.\n\nNous sommes désormais une institution souveraine.\n\nCordialement.";
+    const subjectText = "Résiliation de nos abonnements";
+
+    const [typedText, setTypedText] = useState('');
+    const [showSubject, setShowSubject] = useState(false);
+    const [isComplete, setIsComplete] = useState(false);
+
+    useEffect(() => {
+        const handleKeyDown = () => {
+            if (isComplete) return;
+
+            if (!showSubject) {
+                setShowSubject(true);
+                return;
+            }
+
+            setTypedText(prev => {
+                const remaining = fullText.slice(prev.length);
+                if (remaining.length === 0) {
+                    setIsComplete(true);
+                    return prev;
+                }
+                // Type 3-5 chars at a time for satisfying feel
+                const chunk = remaining.slice(0, 4);
+                const newText = prev + chunk;
+                if (newText.length >= fullText.length) {
+                    setIsComplete(true);
+                    return fullText;
+                }
+                return newText;
+            });
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('click', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('click', handleKeyDown);
+        };
+    }, [isComplete, showSubject]);
+
+    return (
+        <div className="absolute inset-0 z-20 pointer-events-none">
+            {/* Centered Container for Monitor Content */}
+            <div className="absolute top-[52%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] md:w-[42%] h-[45%] flex flex-col gap-2 md:gap-6">
+
+                {/* Subject Line Area */}
+                <div className="h-[15%] w-full flex items-end pl-2 md:pl-4">
+                    <span className="text-black font-sans text-xs md:text-lg font-bold whitespace-nowrap translate-y-1 md:translate-y-2">
+                        {showSubject && subjectText}
+                    </span>
+                </div>
+
+                {/* Body Text Area */}
+                <div className="flex-1 w-full text-black font-sans text-xs md:text-lg leading-relaxed whitespace-pre-wrap overflow-hidden p-2 md:p-4 pt-4">
+                    {typedText}
+                    {!isComplete && <span className="inline-block w-1.5 h-3 md:w-2 md:h-4 bg-black ml-1 animate-pulse" />}
+                </div>
+            </div>
+
+            {/* Send Button */}
+            {isComplete && (
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onComplete();
+                    }}
+                    className="absolute bottom-[15%] right-[10%] md:right-[20%] px-4 py-2 md:px-6 md:py-2 bg-blue-600 text-white text-sm md:text-base font-bold rounded hover:bg-blue-700 transition-all pointer-events-auto shadow-lg border-2 border-white"
+                >
+                    ENVOYER
+                </button>
+            )}
+
+            {/* Instruction Overlay (fades out) */}
+            {!isComplete && typedText.length === 0 && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 text-sm md:text-xl font-bold animate-pulse pointer-events-none bg-white/80 p-2 md:p-4 rounded text-center">
+                    TAPEZ SUR VOTRE CLAVIER...
+                </div>
+            )}
+        </div>
+    );
+};
+
+
