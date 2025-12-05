@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { vt323, irishGrover } from "@/lib/fonts";
 import "./globals.css";
 import { CursorManager } from "@/components/ui/CursorManager";
+import { VolumeProvider } from "@/lib/audio/VolumeContext";
 
 export const metadata: Metadata = {
   title: "Retro RPG Dialogue",
@@ -18,8 +19,10 @@ export default function RootLayout({
       <body
         className={`${vt323.variable} ${irishGrover.variable} antialiased bg-[#202020] text-white overflow-hidden`}
       >
-        <CursorManager />
-        {children}
+        <VolumeProvider>
+          <CursorManager />
+          {children}
+        </VolumeProvider>
       </body>
     </html>
   );
