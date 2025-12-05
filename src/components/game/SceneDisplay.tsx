@@ -18,6 +18,8 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
     const router = useRouter();
     const [dialogueIndex, setDialogueIndex] = useState(0);
     const [effectiveName, setEffectiveName] = useState(playerName);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [showCustomCursor, setShowCustomCursor] = useState(false);
 
     useEffect(() => {
         // If we have a valid name from URL (and it's not the default 'DSI' unless user really typed DSI), save it
@@ -32,6 +34,33 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
             }
         }
     }, [playerName]);
+
+    useEffect(() => {
+        if (scene.id === 'corridor-choice') {
+            setShowCustomCursor(true);
+            const updateMouse = (e: MouseEvent) => {
+                setMousePos({ x: e.clientX, y: e.clientY });
+            };
+            window.addEventListener('mousemove', updateMouse);
+            return () => window.removeEventListener('mousemove', updateMouse);
+        } else {
+            setShowCustomCursor(false);
+        }
+    }, [scene.id]);
+
+    const isLeft = mousePos.x < (typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+
+    const handleSceneClick = () => {
+        if (scene.id === 'corridor-choice') {
+            if (isLeft) {
+                handleChoice('chapitre1/door-closed');
+            } else {
+                handleChoice('chapitre1/dead-end');
+            }
+        } else if (!currentDialogue.choices && !currentDialogue.input) {
+            handleNext();
+        }
+    };
 
     const currentDialogue = scene.dialogues[dialogueIndex];
     const isLastDialogue = dialogueIndex === scene.dialogues.length - 1;
@@ -80,9 +109,26 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
 
     return (
         <div
-            className={`relative w-full h-screen bg-black text-white overflow-hidden ${irishGrover.className} cursor-pointer`}
-            onClick={!currentDialogue.choices ? handleNext : undefined}
+            className={`relative w-full h-screen bg-black text-white overflow-hidden ${irishGrover.className} cursor-pointer ${showCustomCursor ? 'no-cursor' : ''}`}
+            onClick={handleSceneClick}
         >
+            {/* Custom Cursor Element */}
+            {showCustomCursor && (
+                <div
+                    className="fixed pointer-events-none z-[100] transition-transform duration-100 ease-out"
+                    style={{
+                        left: mousePos.x,
+                        top: mousePos.y,
+                        transform: `translate(-50%, -50%) ${isLeft ? 'rotate(0deg)' : 'scaleX(-1)'}`
+                    }}
+                >
+                    <img
+                        src="/images/background/feche.webp"
+                        alt="Cursor"
+                        className="w-16 h-16 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+                    />
+                </div>
+            )}
             {/* Background Layer */}
             <div
                 className="absolute inset-0 bg-cover bg-center transition-all duration-500"
@@ -104,7 +150,7 @@ export const SceneDisplay: React.FC<SceneDisplayProps> = ({ scene, chapterId, pl
             {(scene.showDialogueBox !== false) && (
                 <div className="absolute bottom-0 left-0 w-full z-40">
 
-                    {currentDialogue.choices && (
+                    {currentDialogue.choices && scene.id !== 'corridor-choice' && (
                         <div className="absolute bottom-10 left-0 w-full flex flex-row justify-center gap-4 z-50 pointer-events-auto flex-wrap px-4">
                             {currentDialogue.choices.map((choice, idx) => (
                                 <RetroButton

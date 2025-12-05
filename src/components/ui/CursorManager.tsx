@@ -14,6 +14,9 @@ export const CursorManager = () => {
             body, html, button, a, input, textarea, select, div, p, span, h1, h2, h3, h4, h5, h6 {
                 cursor: ${cursorUrl} !important;
             }
+            .no-cursor, .no-cursor * {
+                cursor: none !important;
+            }
         `;
         document.head.appendChild(style);
 

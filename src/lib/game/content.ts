@@ -160,14 +160,181 @@ export const gameContent: GameConfig = {
                     id: 'start',
                     background: '/images/background/hall.png',
                     showDialogueBox: true,
+                    showChatCompanion: true,
                     dialogues: [
                         {
                             speaker: 'Chatrlatant',
                             text: "Nous y voilà. Le réseau est instable ici. Fais attention.",
                             emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "On doit trouver cette fameuse salle. Suis-moi !",
+                            emotion: 'basic'
                         }
                     ],
-                    nextScene: null // End of demo for now
+                    nextScene: 'chapitre1/corridor-choice'
+                },
+                'corridor-choice': {
+                    id: 'corridor-choice',
+                    background: '/images/background/two_choice.png',
+                    showDialogueBox: true,
+                    showChatCompanion: false, // Focus on choice
+                    dialogues: [
+                        {
+                            speaker: 'Vous',
+                            text: "Deux chemins...",
+                            choices: [
+                                { text: "Aller à gauche", targetScene: "chapitre1/door-closed" },
+                                { text: "Aller à droite", targetScene: "chapitre1/dead-end" }
+                            ]
+                        }
+                    ]
+                },
+                'dead-end': {
+                    id: 'dead-end',
+                    background: '/images/background/dead_end.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Cul-de-sac ! Je t'avais dit que mon GPS buggait ?",
+                            emotion: 'error'
+                        }
+                    ],
+                    nextScene: 'chapitre1/corridor-choice'
+                },
+                'door-closed': {
+                    id: 'door-closed',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Regarde cette porte... Le numéro est bizarre.",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Vous',
+                            text: "Que faire ?",
+                            choices: [
+                                { text: "Toquer", targetScene: "chapitre1/door-knock-1" },
+                                { text: "Essayer d'entrer", targetScene: "chapitre1/door-locked" }
+                            ]
+                        }
+                    ]
+                },
+                'door-locked': {
+                    id: 'door-locked',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Système',
+                            text: "La porte semble fermée à clé.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/door-interaction-2'
+                },
+                'door-knock-1': {
+                    id: 'door-knock-1',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: false,
+                    dialogues: [
+                        {
+                            speaker: '...',
+                            text: "...",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/door-interaction-2'
+                },
+                'door-interaction-2': {
+                    id: 'door-interaction-2',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: false,
+                    dialogues: [
+                        {
+                            speaker: 'Vous',
+                            text: "Je réessaie ?",
+                            choices: [
+                                { text: "Toquer", targetScene: "chapitre1/door-knock-1" },
+                                { text: "Toquer FORT", targetScene: "chapitre1/door-puzzle" }
+                            ]
+                        }
+                    ]
+                },
+                'door-puzzle': {
+                    id: 'door-puzzle',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Voix Intérieure',
+                            text: "MOT DE PASSE !",
+                            emotion: 'basic'
+                        },
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Vite ! Traduis le binaire sur la porte !",
+                            emotion: 'basic',
+                            input: {
+                                correctValue: "Linux",
+                                successScene: "chapitre1/door-open",
+                                failureScene: "chapitre1/door-fail",
+                                placeholder: "Entrez le mot de passe..."
+                            }
+                        }
+                    ]
+                },
+                'door-fail': {
+                    id: 'door-fail',
+                    background: '/images/background/closed_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Voix Intérieure',
+                            text: "VA T'EN !",
+                            emotion: 'error'
+                        }
+                    ],
+                    nextScene: 'chapitre1/door-puzzle'
+                },
+                'door-open': {
+                    id: 'door-open',
+                    background: '/images/background/open_door.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "Ça s'ouvre ! Bien joué DSI.",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: 'chapitre1/geek-room'
+                },
+                'geek-room': {
+                    id: 'geek-room',
+                    background: '/images/background/dark.png',
+                    showDialogueBox: true,
+                    showChatCompanion: true,
+                    dialogues: [
+                        {
+                            speaker: 'Chatrlatant',
+                            text: "C'est sombre ici...",
+                            emotion: 'basic'
+                        }
+                    ],
+                    nextScene: null
                 }
             }
         }

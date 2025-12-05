@@ -8,6 +8,12 @@ export interface Dialogue {
     text: string;
     emotion?: string; // For future sprite variations
     choices?: Choice[];
+    input?: {
+        correctValue: string;
+        successScene: string;
+        failureScene: string;
+        placeholder?: string;
+    };
 }
 
 export interface Scene {
